@@ -34,6 +34,29 @@ int main(int argc, char **argv) {
     MPI_Barrier(MPI_COMM_WORLD);
     init = MPI_Wtime();
 
+    if (rank == 0){
+      load_vector();
+    }
+
+    MPI_Bcast(&N, 1, MPI_INT, 0, MPI_COMM_WORLD);
+
+    int space = N / numprocs;
+    int recv[space];
+    int prime_v[space];
+
+    MPI_Scatter(v, space, MPI_INT, recv, space, MPI_INT, 0, MPI_COMM_WORLD);
+
+    for (i = 0;i<space;i++){
+      prime_v[i] = is_prime(recv[i]);
+    }
+
+    printf("proc %d vector:",rank);
+    for (i = 0;i<space;i++){
+      printf("%d ",prime_v[i]);
+      if (i>100){break;}
+    }
+    printf("\n");
+
     MPI_Barrier(MPI_COMM_WORLD);
     finish =MPI_Wtime();
     printf("time: %d\n",finish-init);
