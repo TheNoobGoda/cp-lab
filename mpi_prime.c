@@ -30,28 +30,10 @@ int main(int argc, char **argv) {
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    int space = N / numprocs;
-    
-    
-    if (rank == 0) {
-      load_vector();
-    }
 
     MPI_Barrier(MPI_COMM_WORLD);
     init = MPI_Wtime();
 
-    if (rank == 0){
-        for (i = 0; i<numprocs; i++){
-            MPI_Bsend(&v[i*space], space, MPI_INT, i, 0, MPI_COMM_WORLD);
-        }        
-    }
-    int prime_v[space];
-    MPI_Recv(prime_v, space, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    for (i = 0; i<space; i++){
-        prime_v[i] = is_prime(prime_v[i]);
-    }
-
-    printf("Proc %d vector %c\n",rank,prime_v);
     MPI_Barrier(MPI_COMM_WORLD);
     finish =MPI_Wtime();
     printf("time: %d\n",finish-init);
