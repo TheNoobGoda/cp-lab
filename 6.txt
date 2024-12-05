@@ -1,0 +1,59 @@
+1)
+
+exec time = 3200
+p = 32
+c(seq) = 0.1
+
+S(p)<= p+f(1-p) = 32+0.1(1-32) = 28.9
+
+2)
+
+t = 3200 p=1
+c(par) = 95
+p = 10
+
+S(p)<= 1/(f+(1-f)/p) = 1/(0.05+(1-0.05)/10) = 6.90
+
+p ->inf S(p)<= 1/f = 20
+
+3)
+3.1) 
+f(p) = C.p
+M(n) = n
+
+M(f(p)) = C.p
+
+C.p/p = C
+good scalability
+
+3.2)
+f(p) = C.sqrt(log(p))
+M(n) = n²
+
+M(f(p)) = (C.sqrt(log(p)))² = C².log(p)
+
+C².log(p)/p
+good scalability
+
+3.3)
+f(p) = C.p.log(p)
+M(n) = n²
+
+M(f(p)) = (C.p.log(p))² = C².p².log(p)²
+
+C².p².log(p)²/p = C².p.log(p)²
+bad scalability
+
+4) c(seq) = 0.05
+c(par1)
+c(par(2))
+S(100) = 75
+
+S(100) = T(1)/T(100) = (0.05 + 50B +100C) / 1
+75 = 0.05+50B+100C
+C = B-0.95
+
+75 = 0.05+50B+100B-95
+
+
+s(100)<=100+0.05.(1-100) = 95.05
